@@ -1,44 +1,67 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <queue>
 using namespace std;
-
-
-vector<pair<int, int>> v;
-
-
+queue<pair<int, int>> q;
+priority_queue<int> pq;
 
 int main() {
-	
-	int n;
 
-	cin >> n;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int t;
+	cin >> t;
 
 
-	for (int i = 0; i < n; i++) {
-		int a, b;
-		cin >> a >> b;
 
-		v.push_back(make_pair(b,a));
+	while (t--) {
 
-	}
-	sort(v.begin(), v.end());
+		int n, m;
+		cin >> n >> m;
 
-	int count = 1;
-	int tmp = v.at(0).first; //끝나는 시간으로 정렬했으므로
+		while (!pq.empty()) pq.pop();
+		while (!q.empty()) q.pop();
 
-	
-	for (int i = 1; i < n; i++) {
-		if (tmp <= v.at(i).second) {
-			tmp = v.at(i).first;
-			count++;
+		for (int i = 0; i < n; i++) {
+			int a;
+			cin >> a;
+			q.push({ a,i });
+			pq.push(a);
 		}
-		else continue;
-	
-	}
-	
+		
 
-	cout << count;
+		int k = 0;
+
+		while(!q.empty()) {
+			
+			if (pq.top() > q.front().first) { //우선 순위가 낮은놈이 비교 
+				q.push(q.front());
+				q.pop();
+
+			}
+			else {
+				k++;
+				if (q.front().second == m) {
+					cout << k<<'\n';
+					break;
+				}
+				pq.pop();
+				q.pop();
+
+			}
+			
+
+		}
+		
+
+
+
+
+
+	}
+
+
 
 
 	return 0;
